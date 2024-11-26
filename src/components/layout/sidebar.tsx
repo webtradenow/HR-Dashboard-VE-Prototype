@@ -67,95 +67,88 @@ export function Sidebar({ onClose }: SidebarProps) {
   const location = useLocation();
 
   return (
-    <div className="flex h-full flex-col bg-white">
-      <div className="border-b px-4 py-4 sm:px-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-x-3">
-            <FileText className="h-6 w-6 shrink-0 text-blue-900" />
-            <div className="flex flex-col">
-              <span className="text-lg sm:text-xl font-semibold text-blue-900 text-left">
-                Verificationemploi.ca
-              </span>
-              <span className="text-xs sm:text-sm text-gray-600 text-left">
-                Background checks are easy!
-              </span>
-            </div>
-          </div>
+    <div className="flex h-full flex-col bg-white shadow-lg border-r">
+      {onClose && (
+        <div className="flex justify-end p-2">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
             onClick={onClose}
+            className="lg:hidden"
+            aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
           </Button>
         </div>
-      </div>
-
-      <nav className="flex-1 space-y-3 px-3 py-3 sm:space-y-4 sm:px-4 sm:py-4">
-        <div className="space-y-1">
-          {navigation.map((item) => (
-            <Button
-              key={item.name}
-              variant="default"
-              className="w-full justify-start gap-x-3 bg-blue-900 hover:bg-blue-800 text-sm sm:text-base"
-              asChild
-            >
-              <Link to={item.href}>
-                <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-                <span className="text-white">{item.name}</span>
-              </Link>
-            </Button>
-          ))}
-        </div>
-        
-        <div className="relative py-3 sm:py-4">
-          <div className="absolute inset-0 flex items-center px-4">
-            <div className="w-full border-t border-gray-200" />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          {sections.map((item) => (
-            <Button
-              key={item.name}
-              variant="default"
-              className="w-full justify-start gap-x-3 bg-blue-900 hover:bg-blue-800 text-sm sm:text-base"
-              asChild
-            >
-              <Link to={item.href}>
-                <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-                <span className="text-white">{item.name}</span>
-              </Link>
-            </Button>
-          ))}
-        </div>
-
-        <div className="relative py-3 sm:py-4">
-          <div className="absolute inset-0 flex items-center px-4">
-            <div className="w-full border-t border-gray-200" />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          {adminSections.map((item) => (
-            <Button
-              key={item.name}
-              variant="default"
-              className="w-full justify-start gap-x-3 bg-blue-900 hover:bg-blue-800 text-sm sm:text-base"
-              asChild
-            >
-              <Link to={item.href}>
-                <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
-                <span className="text-white">{item.name}</span>
-              </Link>
-            </Button>
-          ))}
-        </div>
-      </nav>
-
-      <div className="border-t px-4 py-3 sm:px-6 sm:py-4">
+      )}
+      
+      <div className="flex-1 space-y-6 overflow-y-auto p-4">
         <LiveClock />
+        
+        <nav className="space-y-6">
+          <div>
+            <h2 className="mb-2 px-2 text-sm font-semibold text-gray-500">Main Actions</h2>
+            <div className="space-y-1">
+              {navigation.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors
+                    ${location.pathname === item.href
+                      ? "bg-blue-50 text-blue-900"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-900"
+                    }`}
+                  aria-current={location.pathname === item.href ? "page" : undefined}
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t pt-4">
+            <h2 className="mb-2 px-2 text-sm font-semibold text-gray-500">Sections</h2>
+            <div className="space-y-1">
+              {sections.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors
+                    ${location.pathname === item.href
+                      ? "bg-blue-50 text-blue-900"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-900"
+                    }`}
+                  aria-current={location.pathname === item.href ? "page" : undefined}
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t pt-4">
+            <h2 className="mb-2 px-2 text-sm font-semibold text-gray-500">Administration</h2>
+            <div className="space-y-1">
+              {adminSections.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors
+                    ${location.pathname === item.href
+                      ? "bg-blue-50 text-blue-900"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-blue-900"
+                    }`}
+                  aria-current={location.pathname === item.href ? "page" : undefined}
+                >
+                  <item.icon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </nav>
       </div>
     </div>
   );
